@@ -10,7 +10,7 @@ const selectItem = [
   },
   {
     item: '数字',
-    value: 'NUMBER'
+    value: 'INTEGER'
   },
   {
     item: 'UUID',
