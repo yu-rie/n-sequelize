@@ -8,22 +8,22 @@ export class Table {
     this.tableName = tableName;
     this.tableData = [{
       tableName: this.tableName + ' id',
-      dataType: 'UUID',
+      type: 'UUID',
       primaryKey: true,
       allowNull: false,
     },
     {
-      dataType: 'STRING',
+      type: 'STRING',
       allowNull: false
     },
     {
       tableName: 'created at',
-      dataType: 'DATE',
+      type: 'DATE',
       allowNull: false
     },
     {
       tableName: 'updated at',
-      dataType: 'DATE',
+      type: 'DATE',
       allowNull: false
     }];
     this.attribute = {};
@@ -143,7 +143,7 @@ export class Table {
       const plusButton = document.createElement('button');
       plusButton.innerText = '+';
       plusButton.addEventListener('click', () => {
-        this.tableData.splice(i + 1, 0, { dataType: 'STRING' });
+        this.tableData.splice(i + 1, 0, { type: 'STRING' });
         this.createTable();
       });
       td.appendChild(plusButton);
