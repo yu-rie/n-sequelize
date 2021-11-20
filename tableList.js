@@ -7,19 +7,22 @@ export class TableList {
       {
         tableName: 'user',
         open: true,
-        tableObj: new Table('user').createTable()
+        tableObj: new Table('user')
       },
       {
         tableName: '',
-        open: false      }
+        open: false
+      }
     ];
     this.relation = [{}];
     this.div = document.createElement('div');
     this.relation = document.createElement('div');
+    this.relationList = [];
+    this.relationData = [];
   }
 
   createList() {
-    if (this.div){
+    if (this.div) {
       while (this.div.firstChild) {
         this.div.removeChild(this.div.firstChild);
       }
@@ -29,7 +32,7 @@ export class TableList {
       const summary = document.createElement('summary');
       const input = document.createElement('input');
       summary.innerText = 'テーブル ' + ('00' + (i + 1)).slice(-2) + ': ';
-      input.setAttribute('type','text');
+      input.setAttribute('type', 'text');
       input.value = this.list[i].tableName;
       summary.appendChild(input);
       details.open = this.list[i].open;
@@ -38,69 +41,106 @@ export class TableList {
       });
       details.appendChild(summary);
 
-      if (this.list[i].tableObj){
-      details.appendChild(this.list[i].tableObj);
+      if (this.list[i].tableObj) {
+        details.appendChild(this.list[i].tableObj.createTable());
 
-      // プラスボタン
-      const plusButton = document.createElement('button');
-      plusButton.innerText = '+';
-      plusButton.addEventListener('click',()=>{
-        this.list.splice(i + 1, 0 ,{tableName:'', open:false });
-        this.createList();
-      });
-      summary.appendChild(plusButton);
-
-      // マイナスボタン
-      const minusButton = document.createElement('button');
-      minusButton.innerText = '-';
-      minusButton.addEventListener('click',() => {
-        if(this.list.length > 1){
-          this.list.splice(i,1);
+        // プラスボタン
+        const plusButton = document.createElement('button');
+        plusButton.innerText = '+';
+        plusButton.addEventListener('click', () => {
+          this.list.splice(i + 1, 0, { tableName: '', open: false });
           this.createList();
-        }
-      })
-      summary.appendChild(minusButton);
+        });
+        summary.appendChild(plusButton);
+
+        // マイナスボタン
+        const minusButton = document.createElement('button');
+        minusButton.innerText = '-';
+        minusButton.addEventListener('click', () => {
+          if (this.list.length > 1) {
+            this.list.splice(i, 1);
+            this.createList();
+          }
+        })
+        summary.appendChild(minusButton);
       } else {
         // まだテーブルが無いとき
         // 作成ボタン
         const createButton = document.createElement('button');
-        createButton.innerText = '作成';
+        createButton.innerText = 'テーブル作成';
         createButton.addEventListener('click', () => {
           const tName = createButton.previousElementSibling.value;
           this.list[i].tableName = tName;
           this.list[i].open = true;
-          this.list[i].tableObj = new Table(tName).createTable();
+          this.list[i].tableObj = new Table(tName);
           this.createList();
         })
         summary.appendChild(createButton);
 
-              // プラスボタン
-      const plusButton = document.createElement('button');
-      plusButton.innerText = '+';
-      plusButton.addEventListener('click',()=>{
-        this.list.splice(i + 1, 0 ,{tableName:'', open:false });
-        this.createList();
-      });
-      summary.appendChild(plusButton);
-
-
-              // マイナスボタン
-      const minusButton = document.createElement('button');
-      minusButton.innerText = '-';
-      minusButton.addEventListener('click',() => {
-        if(this.list.length > 1){
-          this.list.splice(i,1);
+        // プラスボタン
+        const plusButton = document.createElement('button');
+        plusButton.innerText = '+';
+        plusButton.addEventListener('click', () => {
+          this.list.splice(i + 1, 0, { tableName: '', open: false });
           this.createList();
-        }
-      })
-      summary.appendChild(minusButton);
+        });
+        summary.appendChild(plusButton);
+
+
+        // マイナスボタン
+        const minusButton = document.createElement('button');
+        minusButton.innerText = '-';
+        minusButton.addEventListener('click', () => {
+          if (this.list.length > 1) {
+            this.list.splice(i, 1);
+            this.createList();
+          }
+        })
+        summary.appendChild(minusButton);
       }
       this.div.appendChild(details);
     }
     return this.div;
   }
 
-  createRelation(){
-    const relationTableList = new Map();
+  // リレーション用のリストを作る
+  createRelation() {
+    const tableNameList = this.list.map(value => this.upperCamelCase(value.tableName)).filter(s => s !== '');
+    const relationList = [];
+
+    for (let i = 0; i < this.list.length; i++) {
+      if (this.list[i].tableName) {
+        relationList.push({
+          title: this.upperCamelCase(this.list[i].tableName),
+          foreignKey: this.list[i].tableObj.foreignKeyList,
+          column: this.list[i].tableObj.columnList()
+        })
+      }
+    }
+    this.relationList = relationList;
+
+    // タグを作っていくよー
+
+
+    return this.relationList;
+  }
+
+  // キャメルケースに変換
+  camelCase(text) {
+    return this.upperCamelCase(text).charAt(0).toLowerCase()
+      + this.upperCamelCase(text).slice(1)
+  }
+
+  // アッパーキャメルケースに変換
+  upperCamelCase(text) {
+    if (!text) {
+      return "";
+    } else {
+      const strs = text.split(/[-_ ]+/);
+      const result = strs.map(
+        str => str.charAt(0).toUpperCase() + str.slice(1)
+      ).join('');
+      return result;
+    }
   }
 }

@@ -31,6 +31,7 @@ export class Table {
     this.div = document.createElement('div');
     this.code = "";
     this.foreignKeyList = [];
+    this.columnNameList = {};
   }
 
   createTable() {
@@ -168,6 +169,7 @@ export class Table {
 
     const details = document.createElement('details');
     const summary = document.createElement('summary');
+    summary.setAttribute('class','code');
     const pre = document.createElement('pre');
     const create = document.createElement('button');
     const resolve = document.createElement('code');
@@ -180,7 +182,7 @@ export class Table {
       resolve.innerText = this.createCode();
       navigator.clipboard.writeText(this.code)
         .then(() => {
-          create.innerText = 'コピー済み'
+          create.innerText = '更新'
         })
         .catch(err => {
           create.innerText = 'コピー失敗'
@@ -188,6 +190,7 @@ export class Table {
     })
 
     this.div.appendChild(details);
+    this.columnList();
 
     return this.div;
   }
@@ -205,7 +208,7 @@ export class Table {
     const ${upper} = sequelize.define(
       '${tablePlural}',
       ${this.codingAttribute()},
-      ${this.codingIndex()}
+      ${this.codingOption()}
     );
     
     module.exports = ${upper}`;
@@ -235,9 +238,16 @@ export class Table {
   codingAttribute() {
     return '  ' + JSON.stringify(this.attribute, null, 2).replace(/"/g, '').replace(/\n/g, '\n  ')
   }
-  // インデックスのコーディング
-  codingIndex() {
-    return '  ' + JSON.stringify(this.index, null, 2).replace(/\n/g, '\n  ')
+  
+  // オプションのコーディング
+  codingOption(){
+    return '  ' + JSON.stringify(this.index,function(key,val){
+      if (typeof val === 'string'){
+        return `'${val}'`;
+      } else {
+        return val;
+      }
+    }, 2).replace(/"/g,'').replace(/\n/g,'\n  ') 
   }
 
   // 要素とインデックスを分けたい
@@ -289,6 +299,12 @@ export class Table {
 
     this.foreignKeyList = fKey;
     this.index = opt;
+  }
+
+  //カラムのリストを返すよ
+  columnList(){
+    const list = this.tableData.map(val => this.camelCase(val.tableName)).filter(s => s !== '');
+    return list;
   }
 
 }

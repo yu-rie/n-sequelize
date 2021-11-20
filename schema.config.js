@@ -70,12 +70,6 @@ export let tableLabel = [{
   defaultValue: false
 },
 {
-  title: '空欄不可',
-  label: 'allowNull',
-  type: 'checkbox',
-  defaultValue: false
-},
-{
   title: '重複不可',
   label: 'unique',
   type: 'checkbox',
