@@ -46,7 +46,7 @@ export let tableLabel = [{
 },
 {
   title: 'データ属性',
-  label: 'dataType',
+  label: 'type',
   type: 'select',
   defaultValue: 'STRING',
   item: selectItem
