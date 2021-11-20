@@ -30,6 +30,7 @@ export class Table {
     this.index = [];
     this.div = document.createElement('div');
     this.code = "";
+    this.foreignKeyList = [];
   }
 
   createTable() {
@@ -244,6 +245,7 @@ export class Table {
     const att = JSON.parse(JSON.stringify(this.tableData));
     const obj = {};
     const ind = [];
+    const fKey = [];
     for (let i = 0; i < att.length; i++) {
       // tableName がなければ削除
       if (!att[i].tableName) {
@@ -254,10 +256,18 @@ export class Table {
         att[i].tableName = this.camelCase(att[i].tableName);
 
         // index を分解
-        if (this.tableData[i].index) {
-          ind.push(this.tableData[i].tableName);
+        if (att[i].index) {
+          ind.push(att[i].tableName);
           delete att[i].index;
         }
+
+        //foreignKey を分解
+        if (att[i].foreignKey) {
+          fKey.push(this.camelCase(att[i].tableName));
+          delete att[i].foreingKey;
+        }
+
+
         // obj に作っていくよ
         const key = att[i].tableName;
         delete att[i].tableName;
@@ -276,6 +286,8 @@ export class Table {
       const indexes = [{ fields: ind }];
       opt.indexes = indexes;
     }
+
+    this.foreignKeyList = fKey;
     this.index = opt;
   }
 
