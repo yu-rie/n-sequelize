@@ -1,0 +1,47 @@
+table {
+  margin: 20px auto;
+}
+th {
+  background: #9768a1;
+  border: solid 0px #ccc;
+  color: #fff;
+  padding: 5px;
+}
+td {
+  height: 26px;
+  padding: 1px;
+}
+
+ input[type=text] {
+   font-size: 1.2em;
+   height: 26px;
+   border: solid 1px #ccc;
+}
+
+input[type=checkbox] {
+  font-size: 1.2em;
+  height: 26px;
+  width: 26px;
+  border: solid 1px #ccc;
+}
+
+select {
+  font-size: 1em;
+  height: 20px;
+  border: solid 1px #ccc;
+}
+
+summary {
+  font-size: .9em;
+  background: #9768a1;
+  color:#fff;
+  padding: 5px;
+}
+details {
+  background: #e4bbd6;
+  border: solid 1px #fff;
+}
+
+button{
+  font-size: 1.2em;
+}
