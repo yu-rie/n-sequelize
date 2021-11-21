@@ -8,6 +8,8 @@ th {
   padding: 5px;
 }
 td {
+  text-align: center;
+  vertical-align: middle;
   height: 26px;
   padding: 1px;
 }
@@ -26,8 +28,8 @@ input[type=checkbox] {
 }
 
 select {
-  font-size: 1em;
-  height: 20px;
+  font-size: 1.2em;
+  height: 26px;
   border: solid 1px #ccc;
 }
 
@@ -48,4 +50,8 @@ button{
 
 .code {
   background: #e4bbd6;
+}
+
+.space {
+  margin-top: 1000px;
 }

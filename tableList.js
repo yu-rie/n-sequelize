@@ -34,6 +34,9 @@ export class TableList {
       summary.innerText = 'テーブル ' + ('00' + (i + 1)).slice(-2) + ': ';
       input.setAttribute('type', 'text');
       input.value = this.list[i].tableName;
+      input.addEventListener('input',(event) => {
+        this.list[i].tableName = event.target.value;
+      })
       summary.appendChild(input);
       details.open = this.list[i].open;
       details.addEventListener('toggle', () => {

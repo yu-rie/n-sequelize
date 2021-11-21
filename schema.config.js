@@ -9,7 +9,7 @@ const selectItem = [
     value: 'TEXT'
   },
   {
-    item: '数字',
+    item: '数値',
     value: 'INTEGER'
   },
   {
@@ -61,7 +61,7 @@ export let tableLabel = [{
   title: '空欄を許可',
   label: 'allowNull',
   type: 'checkbox',
-  defaultValue: false
+  defaultValue: true
 },
 {
   title: '自動採番',

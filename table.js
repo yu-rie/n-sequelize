@@ -13,8 +13,7 @@ export class Table {
       allowNull: false,
     },
     {
-      type: 'STRING',
-      allowNull: false
+      type: 'STRING'
     },
     {
       tableName: 'created at',
@@ -79,7 +78,7 @@ export class Table {
         td = document.createElement('td');
         let input = document.createElement('input');
         const label = rowData[j].label;
-        if (tData[label]) {
+        if (tData[label] !== undefined) {
           rowData[j].defaultValue = tData[label];
         }
 
@@ -101,7 +100,7 @@ export class Table {
             input.setAttribute('type', 'checkbox');
             input.checked = rowData[j].defaultValue;
             input.addEventListener('change', () => {
-              // TODO label が arrayNull なら false 側を設定
+              // TODO label が allowNull なら false 側を設定
               if (input.checked === false) {
                 if (label === 'allowNull') {
                   this.tableData[i][label] = false;
@@ -110,6 +109,7 @@ export class Table {
                 }
               } else {
                 if (label === 'allowNull') {
+                  console.log(this.tableData[i]);
                   delete this.tableData[i][label];
                 } else {
                   this.tableData[i][label] = input.checked;
@@ -145,7 +145,7 @@ export class Table {
       const plusButton = document.createElement('button');
       plusButton.innerText = '+';
       plusButton.addEventListener('click', () => {
-        this.tableData.splice(i + 1, 0, { type: 'STRING' });
+        this.tableData.splice(i + 1, 0, { type: 'STRING', allowNull: true });
         this.createTable();
       });
       td.appendChild(plusButton);
@@ -211,7 +211,7 @@ export class Table {
       ${this.codingOption()}
     );
     
-    module.exports = ${upper}`;
+    module.exports = ${upper};`;
     return this.code;
   }
 
@@ -274,7 +274,12 @@ export class Table {
         //foreignKey を分解
         if (att[i].foreignKey) {
           fKey.push(this.camelCase(att[i].tableName));
-          delete att[i].foreingKey;
+          delete att[i].foreignKey;
+        }
+
+        // 初期値が文字列なら"'文字列'"にするよ
+        if (att[i].defaultValue && !/^[-]?([1-9]\d*|0|true|false)(\.\d+)?$/.test(att[i].defaultValue)){
+          att[i].defaultValue = "'" + att[i].defaultValue + "'";
         }
 
 
