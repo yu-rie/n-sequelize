@@ -29,7 +29,7 @@ export class Table {
     this.index = [];
     this.div = document.createElement('div');
     this.code = "";
-    this.foreignKeyList = [];
+    this.relianceList = [];
     this.columnNameList = {};
   }
 
@@ -271,10 +271,10 @@ export class Table {
           delete att[i].index;
         }
 
-        //foreignKey を分解
-        if (att[i].foreignKey) {
+        //reliance を分解
+        if (att[i].reliance) {
           fKey.push(this.camelCase(att[i].tableName));
-          delete att[i].foreignKey;
+          delete att[i].reliance;
         }
 
         // 初期値が文字列なら"'文字列'"にするよ
@@ -302,7 +302,7 @@ export class Table {
       opt.indexes = indexes;
     }
 
-    this.foreignKeyList = fKey;
+    this.relianceList = fKey;
     this.index = opt;
   }
 

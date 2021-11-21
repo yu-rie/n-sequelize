@@ -34,7 +34,7 @@ export class TableList {
       summary.innerText = 'テーブル ' + ('00' + (i + 1)).slice(-2) + ': ';
       input.setAttribute('type', 'text');
       input.value = this.list[i].tableName;
-      input.addEventListener('input',(event) => {
+      input.addEventListener('input', (event) => {
         this.list[i].tableName = event.target.value;
       })
       summary.appendChild(input);
@@ -123,9 +123,15 @@ export class TableList {
     this.relationList = relationList;
 
     // タグを作っていくよー
+    while (this.div.firstChild) {
+      this.div.removeChild(this.div.firstChild);
+    }
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    const table = document.createElement('table');
+    
 
-
-    return this.relationList;
+    return this.relation;
   }
 
   // キャメルケースに変換

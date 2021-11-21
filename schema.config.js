@@ -33,8 +33,8 @@ export let tableLabel = [{
   defaultValue: false
 },
 {
-  title: '外部キー',
-  label: 'foreignKey',
+  title: '従属E',
+  label: 'reliance',
   type: 'checkbox',
   defaultValue: false
 },
